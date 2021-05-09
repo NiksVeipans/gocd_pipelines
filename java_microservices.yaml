@@ -48,65 +48,65 @@ pipelines:
         auto_update: true
     stages: 
       - build:
-        jobs:
-          build:
-            tasks:
-              - exec:
-                command: bash
-                arguments:
-                  - -c 
-                  - echo "Building java app"
+          jobs:
+            build:
+              tasks:
+                - exec:
+                  command: bash
+                  arguments:
+                    - -c 
+                    - echo "Building java app"
       - deploy-dev:
-        environment_variables:
-          ENV_NAME: dev
-        jobs:
-          deploy:
-            tasks: *deploy-tasks
+          environment_variables:
+            ENV_NAME: dev
+          jobs:
+            deploy:
+              tasks: *deploy-tasks
       - test-dev:
-        environment_variables:
-          ENV_NAME: dev
-        jobs:
-          test:
-            artifacts:
-              - build:
-                source: report_dev.html
-                destination: test-output
-            tabs:
-              Report: test-output/report_dev.html
-            tasks: *test-tasks
+          environment_variables:
+            ENV_NAME: dev
+          jobs:
+            test:
+              artifacts:
+                - build:
+                  source: report_dev.html
+                  destination: test-output
+              tabs:
+                Report: test-output/report_dev.html
+              tasks: *test-tasks
       - deploy-int:
-        environment_variables:
-          ENV_NAME: int
-        jobs:
-          deploy:
-            tasks: *deploy-tasks
+          environment_variables:
+            ENV_NAME: int
+          jobs:
+            deploy:
+              tasks: *deploy-tasks
       - test-int:
-        environment_variables:
-          ENV_NAME: int
-        jobs:
-          test:
-            artifacts:
-              - build:
-                source: report_int.html
-                destination: test-output
-            tabs:
-              Report: test-output/report_int.html
-            tasks: *test-tasks
+          environment_variables:
+            ENV_NAME: int
+          jobs:
+            test:
+              artifacts:
+                - build:
+                  source: report_int.html
+                  destination: test-output
+              tabs:
+                Report: test-output/report_int.html
+              tasks: *test-tasks
       - deploy-prd:
-        environment_variables:
-          ENV_NAME: prd
-        jobs:
-          deploy:
-            tasks: *deploy-tasks
+          environment_variables:
+            ENV_NAME: prd
+          jobs:
+            deploy:
+              tasks: *deploy-tasks
       - test-prd:
-        environment_variables:
-          ENV_NAME: prd
-        jobs:
-          test:
-            artifacts:
-              - build:
-                source: report_prd.html
-                destination: test-output
-            tabs:
-              Report: test-output/report_prd.html
-            tasks: *test-tasks
+          environment_variables:
+            ENV_NAME: prd
+          jobs:
+            test:
+              artifacts:
+                - build:
+                  source: report_prd.html
+                  destination: test-output
+              tabs:
+                Report: test-output/report_prd.html
+              tasks: *test-tasks
