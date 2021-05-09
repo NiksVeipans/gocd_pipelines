@@ -36,26 +36,26 @@
               - docker rm -f api_test_executor_${ENV_NAME}
     
     pipelines:
-      java_microservice:
-        group: microservices
-        lock_behavior: unlockWhenFinished
-        label_template: "${git_java_microservice}"
-        materials: 
-          git_java_microservice:
-            git: https://github.com/mtararujs/api_tests_ci.git
-            branch: main
-            shallow_clone: true
-            auto_update: true
-        stages: 
-          - build:
-              jobs:
-                build:
-                  tasks:
-                    - exec:
-                        command: bash
-                        arguments:
-                          - -c 
-                          - echo "Building java app"
+        java_microservice:
+            group: microservices
+            lock_behavior: unlockWhenFinished
+            label_template: "${git_java_microservice}"
+            materials: 
+                git_java_microservice:
+                    git: https://github.com/mtararujs/api_tests_ci.git
+                    branch: main
+                    shallow_clone: true
+                    auto_update: true
+        stages:
+            - build:
+                jobs:
+                    build:
+                        tasks:
+                            - exec:
+                                command: bash
+                                arguments:
+                                    - -c 
+                                    - echo "Building java app"
           - deploy-dev:
               environment_variables:
                 ENV_NAME: dev
