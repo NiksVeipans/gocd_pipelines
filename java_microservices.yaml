@@ -19,4 +19,60 @@ pipelines:
                         - exec:
                             command: bash
                             arguments:
+                                - -c
                                 - echo "Building java app"
+            - deploy-dev:
+                jobs:
+                    build:
+                    tasks:
+                        - exec:
+                            command: bash
+                            arguments:
+                                - -c
+                                - echo "Deploy in dev"
+            - test-dev:
+                jobs:
+                    build:
+                    tasks:
+                        - exec:
+                            command: bash
+                            arguments:
+                                - -c
+                                - echo "Test on dev"
+            - deploy-int:
+                jobs:
+                    build:
+                    tasks:
+                        - exec:
+                            command: bash
+                            arguments:
+                                - -c
+                                - echo "Deploy in int"
+            - test-int:
+                jobs:
+                    build:
+                    tasks:
+                        - exec:
+                            command: bash
+                            arguments:
+                                - -c
+                                - echo "Test on int"
+            - deploy-dev:
+                jobs:
+                    build:
+                    tasks:
+                        - exec:
+                            command: bash
+                            arguments:
+                                - -c
+                                - echo "Deploy in prd"
+            - test-dev:
+                jobs:
+                    build:
+                    tasks:
+                        - exec:
+                            command: bash
+                            arguments:
+                                - -c
+                                - echo "Test on prd"
+            
