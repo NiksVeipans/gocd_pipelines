@@ -1,10 +1,24 @@
 ---
 format_version: 10
+common:
+    deploy-tasks: &deploy-tasks
+        - exec:
+            command: bash
+            arguments:
+                - -c
+                - echo "Deploy on ${ENV_NAME} environment"
+    test-tasks: &test-tasks
+        - exec:
+            command: bash
+            arguments:
+                - -c
+                - echo "Running tests on ${ENV_NAME} environment"
+
 pipelines:
     java_microservice:
         group: microservices
         lock_behavior: unlockWhenFinished
-        label_template:
+        label_template: "${git_java_microservice}"
         materials: 
             git_java_microservice:
                 git: https://github.com/mtararujs/api_tests_ci.git
@@ -15,64 +29,46 @@ pipelines:
             - build:
                 jobs:
                     build:
-                    tasks:
-                        - exec:
-                            command: bash
-                            arguments:
-                                - -c
-                                - echo "Building java app"
+                        tasks:
+                            - exec:
+                                command: bash
+                                arguments:
+                                    - -c
+                                    - echo "Building java app"
             - deploy-dev:
+                environment-variables:
+                    ENV_NAME: dev
                 jobs:
-                    build:
-                    tasks:
-                        - exec:
-                            command: bash
-                            arguments:
-                                - -c
-                                - echo "Deploy in dev"
+                    deploy:
+                        tasks: *deploy-tasks
             - test-dev:
+                environment-variables:
+                    ENV_NAME: dev
                 jobs:
-                    build:
-                    tasks:
-                        - exec:
-                            command: bash
-                            arguments:
-                                - -c
-                                - echo "Test on dev"
+                    deploy:
+                        tasks: *test-tasks
             - deploy-int:
+                environment-variables:
+                    ENV_NAME: int
                 jobs:
-                    build:
-                    tasks:
-                        - exec:
-                            command: bash
-                            arguments:
-                                - -c
-                                - echo "Deploy in int"
+                    deploy:
+                        tasks: *deploy-tasks
             - test-int:
+                environment-variables:
+                    ENV_NAME: int
                 jobs:
-                    build:
-                    tasks:
-                        - exec:
-                            command: bash
-                            arguments:
-                                - -c
-                                - echo "Test on int"
+                    deploy:
+                        tasks: *test-tasks
             - deploy-dev:
+                environment-variables:
+                    ENV_NAME: prd
                 jobs:
-                    build:
-                    tasks:
-                        - exec:
-                            command: bash
-                            arguments:
-                                - -c
-                                - echo "Deploy in prd"
+                    deploy:
+                        tasks: *deploy-tasks
             - test-dev:
+                environment-variables:
+                    ENV_NAME: prd
                 jobs:
-                    build:
-                    tasks:
-                        - exec:
-                            command: bash
-                            arguments:
-                                - -c
-                                - echo "Test on prd"
+                    deploy:
+                        tasks: *test-tasks
             
